@@ -116,7 +116,7 @@ function renderCaseSummary(){
  if(!['new','old'].includes(caseScope)){$('overall-conclusion').innerHTML=savedOverall;document.querySelector('.unit-conclusions').innerHTML=savedUnits;}
  else{
  const counts=['執行中','待上線','洽談中','已結案'].map(s=>s+' '+rows.filter(x=>x.status===s).length+' 案').join('、');
- $('overall-conclusion').innerHTML='<h2>整體合作結論｜合作'+caseLabel+'</h2><p>依附件 I 欄「'+caseLabel+'」篩選，共 '+rows.length+' 案：'+counts+'。</p><p><strong>【AI決策結論】'+(caseScope==='old'?'合作舊案依目前進度檢視續作與結案：已結案先核對成效與成本；執行中追蹤人流及付費轉換，並依各案改善建議評估續投。':'執行中新案先改善導流與付費轉換；待上線及洽談案件先確認合作時程、目標口徑與驗收方式。燈號僅反映附件實績／目標，不以尚未上線的 0% 直接判定停案。')+'</strong></p>';
+ $('overall-conclusion').innerHTML='<h2>合作'+caseLabel+'結論</h2><p>依附件 I 欄「'+caseLabel+'」篩選，共 '+rows.length+' 案：'+counts+'。</p><p><strong>【AI決策結論】'+(caseScope==='old'?'合作舊案依目前進度檢視續作與結案：已結案先核對成效與成本；執行中追蹤人流及付費轉換，並依各案改善建議評估續投。':'執行中新案先改善導流與付費轉換；待上線及洽談案件先確認合作時程、目標口徑與驗收方式。燈號僅反映附件實績／目標，不以尚未上線的 0% 直接判定停案。')+'</strong></p>';
  document.querySelector('.unit-conclusions').innerHTML=tabUnits.slice(1).map(u=>{const list=rows.filter(x=>x.unit===u);const sum=i=>list.reduce((n,x)=>n+(typeof x.actual[i]==='number'?x.actual[i]:0),0);return '<article><h3>'+esc(u)+' <small>'+list.length+' 案'+caseLabel+'</small></h3><div class="all-period-totals" style="color:#c62828;font-weight:700">全部期間實際加總<br>總人流：'+sum(0).toLocaleString('zh-TW')+' 人次<br>總業績：'+sum(1).toLocaleString('zh-TW',{minimumFractionDigits:2,maximumFractionDigits:2})+' 元</div>'+list.map(x=>'<p><strong>'+esc(x.partner)+'／'+esc(x.name)+'</strong>｜'+esc(x.status)+'<br>人流 '+cell(rates(x)[0])+'；營收 '+cell(rates(x)[1])+'<br>'+esc(executionAdvice(x))+'</p>').join('')+'</article>';}).join('');
  }
  syncUnitConclusions();
